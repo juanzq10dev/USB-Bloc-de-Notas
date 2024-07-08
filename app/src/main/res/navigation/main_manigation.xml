@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_manigation"
+    app:startDestination="@id/login">
+
+    <fragment
+        android:id="@+id/notesListPage"
+        android:name="com.example.blocdenotas.NotesListPage"
+        android:label="fragment_notes_list_page"
+        tools:layout="@layout/fragment_notes_list_page" />
+    <fragment
+        android:id="@+id/login"
+        android:name="com.example.blocdenotas.Login"
+        android:label="Login" >
+        <action
+            android:id="@+id/action_login_to_notesListPage"
+            app:destination="@id/notesListPage" />
+    </fragment>
+</navigation>
