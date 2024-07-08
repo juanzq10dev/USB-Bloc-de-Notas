@@ -9,7 +9,14 @@
         android:id="@+id/notesListPage"
         android:name="com.example.blocdenotas.NotesListPage"
         android:label="fragment_notes_list_page"
-        tools:layout="@layout/fragment_notes_list_page" />
+        tools:layout="@layout/fragment_notes_list_page" >
+        <action
+            android:id="@+id/action_notesListPage_to_notesDetail"
+            app:destination="@id/notesDetail" />
+        <action
+            android:id="@+id/action_notesListPage_to_login"
+            app:destination="@id/login" />
+    </fragment>
     <fragment
         android:id="@+id/login"
         android:name="com.example.blocdenotas.Login"
@@ -18,4 +25,8 @@
             android:id="@+id/action_login_to_notesListPage"
             app:destination="@id/notesListPage" />
     </fragment>
+    <fragment
+        android:id="@+id/notesDetail"
+        android:name="com.example.blocdenotas.NotesDetail"
+        android:label="NotesDetail" />
 </navigation>
