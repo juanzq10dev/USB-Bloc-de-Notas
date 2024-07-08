@@ -2,4 +2,11 @@
     <string name="app_name">Bloc de notas</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_of_the_note">Title of the note</string>
+    <string name="write_something">Write something</string>
+    <string name="save">Save</string>
+    <string name="insert_email">Insert Email</string>
+    <string name="insert_password">Insert Password</string>
+    <string name="log_in">Log in</string>
+    <string name="to_notes_detail">To Notes Detail</string>
 </resources>
