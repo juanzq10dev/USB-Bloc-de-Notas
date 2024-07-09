@@ -10,10 +10,10 @@ data class Note (
     val id: Long,
 
     @ColumnInfo
-    val title: String,
+    var title: String,
 
     @ColumnInfo
-    val description: String
+    var description: String
 
 /*
 data class Note(val date: String, val latitude: Int, val longitude: Int,

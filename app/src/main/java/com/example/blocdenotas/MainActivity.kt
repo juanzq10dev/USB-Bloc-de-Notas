@@ -9,10 +9,13 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.blocdenotas.viewmodels.LoginViewModel
 import com.example.blocdenotas.viewmodels.NoteShareViewModel
 import com.example.blocdenotas.viewmodels.NoteShareViewModelFactory
+import com.example.blocdenotas.viewmodels.NotesDetailViewModel
+import com.example.blocdenotas.viewmodels.NotesDetailViewModelFactory
 
 class MainActivity : AppCompatActivity() {
     lateinit var loginViewModel: LoginViewModel
     lateinit var noteShareViewModel: NoteShareViewModel
+    lateinit var noteDetailViewModel: NotesDetailViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +29,9 @@ class MainActivity : AppCompatActivity() {
 
         val factory = NoteShareViewModelFactory(applicationContext)
         noteShareViewModel = ViewModelProvider(this, factory).get(NoteShareViewModel::class.java)
+
+        val detailFactory = NotesDetailViewModelFactory(noteShareViewModel)
+        noteDetailViewModel = ViewModelProvider(this, detailFactory).get(NotesDetailViewModel::class.java)
 
         loginViewModel = LoginViewModel()
     }

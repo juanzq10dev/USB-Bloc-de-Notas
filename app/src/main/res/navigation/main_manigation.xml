@@ -28,5 +28,9 @@
     <fragment
         android:id="@+id/notesDetail"
         android:name="com.example.blocdenotas.NotesDetail"
-        android:label="NotesDetail" />
+        android:label="NotesDetail" >
+        <action
+            android:id="@+id/action_notesDetail_to_notesListPage"
+            app:destination="@id/notesListPage" />
+    </fragment>
 </navigation>
