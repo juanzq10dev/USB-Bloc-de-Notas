@@ -12,4 +12,10 @@ class NoteShareViewModel(val repository: NoteRepository): ViewModel() {
         selectedNote = note
     }
 
+    fun getAccessToken() = repository.getToken()
+
+    suspend fun saveAccessToken(token : String) {
+        repository.saveToken(token)
+    }
+
 }

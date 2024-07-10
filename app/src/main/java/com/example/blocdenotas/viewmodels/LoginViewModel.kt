@@ -3,8 +3,9 @@ package com.example.blocdenotas.viewmodels
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import kotlinx.coroutines.flow.flow
 
-class LoginViewModel: ViewModel() {
+class LoginViewModel(): ViewModel() {
     var userEmail = MutableLiveData<String>()
     var userPassword = MutableLiveData<String>()
     var isValid = MediatorLiveData<Boolean>()
@@ -21,4 +22,5 @@ class LoginViewModel: ViewModel() {
 
     private fun checkIfValid() = !(userEmail.value).isNullOrBlank() &&
             !(userPassword.value).isNullOrBlank()
+
 }

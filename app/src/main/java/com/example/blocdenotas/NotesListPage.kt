@@ -39,6 +39,10 @@ class NotesListPage : Fragment(R.layout.fragment_notes_list_page) {
         }
     }
 
+    private fun setupLogginButton() {
+
+    }
+
     private fun setupRecyclerView() {
         adapter = NotesRecyclerViewAdapter(listOf()) { note ->
             viewModel.selectNote(note)
