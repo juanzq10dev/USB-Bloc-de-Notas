@@ -9,6 +9,7 @@ import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.view.isVisible
@@ -94,11 +95,6 @@ class NotesDetail : Fragment() {
                 }
             }
         }
-    }
-
-    override fun onPause() {
-        super.onPause()
-
     }
 
     override fun onResume() {

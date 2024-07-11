@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.datastore.core.DataStore
 import androidx.datastore.dataStore
 import androidx.datastore.preferences.core.Preferences
@@ -120,6 +121,11 @@ class Login : Fragment(R.layout.fragment_login) {
             if (isLogged) {
                 val direction = LoginDirections.actionLoginToNotesListPage()
                 binding.root.findNavController().navigate(direction)
+            } else {
+                val text = "Usuario o contraseña incorrectos!"
+                val duration = Toast.LENGTH_SHORT
+                val toast = Toast.makeText(requireContext(), text, duration) // in Activity
+                toast.show()
             }
 
         }

@@ -46,6 +46,6 @@ class NetworkConnectivityObserver(
             awaitClose {
                 connectivityManager.unregisterNetworkCallback(callback)
             }
-        }.distinctUntilChanged() // <- Only trigger if change
+        }
     }
 }

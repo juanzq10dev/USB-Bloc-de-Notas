@@ -2,6 +2,7 @@ package com.example.blocdenotas
 
 import android.content.Context
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -61,6 +62,28 @@ class MainActivity : AppCompatActivity() {
                         navController.navigate(R.id.login)
                     } else {
                         navController.navigate(R.id.notesListPage)
+                    }
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            connectivityObserver.observe().collect {
+                if (it != ConnectivityObserver.InternetStatus.Available) {
+                    withContext(Dispatchers.Main) {
+                        val text = "No hay conexión a Internet, errores inesperados pueden suceder!"
+                        val duration = Toast.LENGTH_SHORT
+
+                        val toast = Toast.makeText(applicationContext, text, duration) // in Activity
+                        toast.show()
+                    }
+                } else {
+                    withContext(Dispatchers.Main) {
+                        val text = "Conectado a Internet"
+                        val duration = Toast.LENGTH_SHORT
+
+                        val toast = Toast.makeText(applicationContext, text, duration) // in Activity
+                        toast.show()
                     }
                 }
             }
