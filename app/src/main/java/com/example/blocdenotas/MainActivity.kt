@@ -13,6 +13,8 @@ import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
+import com.example.blocdenotas.observer.ConnectivityObserver
+import com.example.blocdenotas.observer.NetworkConnectivityObserver
 import com.example.blocdenotas.viewmodels.LoginViewModel
 import com.example.blocdenotas.viewmodels.NoteShareViewModel
 import com.example.blocdenotas.viewmodels.NoteShareViewModelFactory
@@ -27,6 +29,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var loginViewModel: LoginViewModel
     lateinit var noteShareViewModel: NoteShareViewModel
     lateinit var noteDetailViewModel: NotesDetailViewModel
+    lateinit var connectivityObserver: ConnectivityObserver
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,6 +40,8 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+
+        connectivityObserver = NetworkConnectivityObserver(applicationContext)
 
         val factory = NoteShareViewModelFactory(applicationContext, dataStore)
         noteShareViewModel = ViewModelProvider(this, factory).get(NoteShareViewModel::class.java)
