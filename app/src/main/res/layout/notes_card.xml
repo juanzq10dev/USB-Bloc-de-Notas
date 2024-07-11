@@ -15,7 +15,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardCornerRadius="10dp"
-        android:elevation="10dp">
+        android:elevation="10dp"
+        android:padding="10dp"
+        android:layout_margin="5dp"
+        >
 
         <LinearLayout
             android:orientation="vertical"
@@ -26,12 +29,17 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@{note.title}"
+                android:textSize="20sp"
+                android:layout_margin="5dp"
+
                 />
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@{note.description}"
                 android:maxLines="3"
+                android:layout_margin="5dp"
+
                 />
         </LinearLayout>
     </androidx.cardview.widget.CardView>

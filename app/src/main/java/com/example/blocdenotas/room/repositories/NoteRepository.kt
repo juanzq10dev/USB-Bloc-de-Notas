@@ -19,10 +19,6 @@ class NoteRepository(private val notesDao: NoteDao, private val dataStore: DataS
                      private val notesApiService: NotesApiService) {
     val notes = notesDao.getAllNotes()
 
-    suspend fun insert(note: Note) {
-        notesDao.insertNote(note)
-    }
-
     fun deleteAll() {
         notesDao.deleteAll()
     }
@@ -58,8 +54,6 @@ class NoteRepository(private val notesDao: NoteDao, private val dataStore: DataS
 
         if ( res.isSuccessful && res.body() != null ) {
             getAll().collect { }
-        } else {
-            // Throw error
         }
     }
 

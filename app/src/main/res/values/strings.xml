@@ -10,4 +10,5 @@
     <string name="log_in">Log in</string>
     <string name="to_notes_detail">To Notes Detail</string>
     <string name="log_out">Log out</string>
+    <string name="bloc_de_notas">Bloc de Notas</string>
 </resources>

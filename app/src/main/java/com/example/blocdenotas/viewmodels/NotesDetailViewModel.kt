@@ -17,6 +17,8 @@ class NotesDetailViewModel(val notesShareViewModel: NoteShareViewModel, connecti
     val repository = notesShareViewModel.repository
     var notesTitle = MutableLiveData<String>()
     var notesDescription = MutableLiveData<String>()
+    var latitude = MutableLiveData<Double>()
+    var longitude = MutableLiveData<Double>()
     var connecObserver = connectivityObserver
     var isValid = MediatorLiveData<Boolean>()
 
@@ -74,8 +76,8 @@ class NotesDetailViewModel(val notesShareViewModel: NoteShareViewModel, connecti
                         insert(Note(
                             "",
                             LocalDate.now().toString(),
-                            0.1,
-                            0.1,
+                            latitude.value!!,
+                            longitude.value!!,
                             userId,
                             notesTitle.value!!,
                             notesDescription.value!!,
@@ -92,13 +94,6 @@ class NotesDetailViewModel(val notesShareViewModel: NoteShareViewModel, connecti
                         )
                         notesTitle.value = ""
                         notesDescription.value = ""
-                        /*
-                                        notesShareViewModel.selectedNote?.title = notesTitle.value!!
-                        notesShareViewModel.selectedNote?.description = notesDescription.value!!
-                        update(notesShareViewModel.selectedNote!!)
-                        notesTitle.value = ""
-                        notesDescription.value = ""
-                         */
                     }
                 }
 
