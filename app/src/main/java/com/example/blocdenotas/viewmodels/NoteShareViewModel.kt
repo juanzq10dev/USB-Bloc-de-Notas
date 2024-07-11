@@ -3,6 +3,7 @@ package com.example.blocdenotas.viewmodels
 import android.hardware.biometrics.BiometricManager.Strings
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.blocdenotas.retrofit.entity.LoginPost
 import com.example.blocdenotas.room.models.Note
 import com.example.blocdenotas.room.repositories.NoteRepository
 import kotlinx.coroutines.launch
@@ -31,6 +32,10 @@ class NoteShareViewModel(val repository: NoteRepository): ViewModel() {
 
     fun removeToken() = viewModelScope.launch {
         repository.saveToken("")
+    }
+
+    fun login(loginPost: LoginPost) = viewModelScope.launch {
+        repository.login(loginPost)
     }
 
 }

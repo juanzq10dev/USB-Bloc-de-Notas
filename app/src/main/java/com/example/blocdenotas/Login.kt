@@ -14,6 +14,7 @@ import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import com.example.blocdenotas.databinding.FragmentLoginBinding
+import com.example.blocdenotas.retrofit.entity.LoginPost
 import com.example.blocdenotas.room.models.AccessToken
 import com.example.blocdenotas.viewmodels.LoginViewModel
 import com.example.blocdenotas.viewmodels.NoteShareViewModel
@@ -22,6 +23,7 @@ import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kotlin.math.log
 
 class Login : Fragment(R.layout.fragment_login) {
     lateinit var binding: FragmentLoginBinding
@@ -85,13 +87,22 @@ class Login : Fragment(R.layout.fragment_login) {
 
     private fun setupLoginButton() {
         binding.loginButton.setOnClickListener {
+            shareViewModel.login(
+                LoginPost(loginViewModel.userEmail.value!!, loginViewModel.userPassword.value!!))
+
             lifecycleScope.launch(Dispatchers.IO) {
-                pref.edit { preferences ->
-                    preferences[stringPreferencesKey("accessToken")] = "hello"
+                shareViewModel.getAccessToken().collect {
+                    withContext(Dispatchers.Main) {
+                        isLogged = it.token.isNotEmpty()
+                    }
                 }
             }
-            val direction = LoginDirections.actionLoginToNotesListPage()
-            binding.root.findNavController().navigate(direction)
+
+            if (isLogged) {
+                val direction = LoginDirections.actionLoginToNotesListPage()
+                binding.root.findNavController().navigate(direction)
+            }
+
         }
     }
 }
