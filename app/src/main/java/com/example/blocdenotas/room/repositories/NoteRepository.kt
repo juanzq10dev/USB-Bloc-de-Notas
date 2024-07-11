@@ -7,6 +7,7 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import com.example.blocdenotas.api.NotesApiService
 import com.example.blocdenotas.retrofit.entity.LoginPost
+import com.example.blocdenotas.retrofit.entity.NoteDelete
 import com.example.blocdenotas.room.dao.NoteDao
 import com.example.blocdenotas.room.models.AccessToken
 import com.example.blocdenotas.room.models.Note
@@ -66,6 +67,16 @@ class NoteRepository(private val notesDao: NoteDao, private val dataStore: DataS
         val res = call.awaitResponse()
 
         if (res.isSuccessful && res.body() != null) {
+            deleteAll()
+            getAll().collect { }
+        }
+    }
+
+    suspend fun deleteToApi(noteDelete: NoteDelete) {
+        val call = notesApiService.deleteToApi(noteDelete)
+        val res = call.awaitResponse()
+
+        if (res.isSuccessful && res.body() != null) {
             getAll().collect { }
         }
     }
@@ -82,6 +93,7 @@ class NoteRepository(private val notesDao: NoteDao, private val dataStore: DataS
         if (response.isSuccessful && response.body() != null) {
             val accessToken = response.body()!!
             saveToken(accessToken.token)
+            getAll().collect { }
             return true
         } else {
             // throw error

@@ -32,6 +32,7 @@ class NoteShareViewModel(val repository: NoteRepository): ViewModel() {
 
     fun removeToken() = viewModelScope.launch {
         repository.saveToken("")
+        repository.deleteAll()
     }
 
     fun login(loginPost: LoginPost) = viewModelScope.launch {

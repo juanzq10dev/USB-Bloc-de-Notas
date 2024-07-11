@@ -5,6 +5,7 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.blocdenotas.retrofit.entity.NoteDelete
 import com.example.blocdenotas.room.models.Note
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -41,6 +42,10 @@ class NotesDetailViewModel(val notesShareViewModel: NoteShareViewModel): ViewMod
 
     fun update(note: Note) = viewModelScope.launch {
         repository.updateToApi(note)
+    }
+
+    fun delete(noteDelete: NoteDelete) = viewModelScope.launch {
+        repository.deleteToApi(noteDelete)
     }
 
     fun save() {
@@ -84,6 +89,14 @@ class NotesDetailViewModel(val notesShareViewModel: NoteShareViewModel): ViewMod
             }
         }
 
+    }
+
+    fun remove() {
+        if (notesShareViewModel.selectedNote != null) {
+            delete(NoteDelete(
+                notesShareViewModel.selectedNote!!.id
+            ))
+        }
     }
 
     private fun checkIfValid() = !(notesTitle.value).isNullOrBlank()

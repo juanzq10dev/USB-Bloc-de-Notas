@@ -5,9 +5,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import com.example.blocdenotas.databinding.FragmentNotesDetailBinding
+import com.example.blocdenotas.retrofit.entity.NoteDelete
 import com.example.blocdenotas.viewmodels.NoteShareViewModel
 import com.example.blocdenotas.viewmodels.NotesDetailViewModel
 import kotlinx.coroutines.Dispatchers
@@ -35,10 +37,22 @@ class NotesDetail : Fragment() {
         binding.detailsViewModel = detailViewModel
         detailViewModel.updateTexts()
         binding.lifecycleOwner = this
+        setupDeleteButton()
         binding.button.setOnClickListener {
             detailViewModel.save()
             binding.root.findNavController().navigate(R.id.action_notesDetail_to_notesListPage)
         }
+
+    }
+
+    private fun setupDeleteButton() {
+        if (viewModel.selectedNote == null) {
+            binding.deleteButton.isVisible = false
+        }
+            binding.deleteButton.setOnClickListener {
+                detailViewModel.remove()
+                binding.root.findNavController().navigate(R.id.action_notesDetail_to_notesListPage)
+            }
 
     }
 }
