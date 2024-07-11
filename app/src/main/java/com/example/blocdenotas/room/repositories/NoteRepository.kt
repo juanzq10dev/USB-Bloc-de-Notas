@@ -23,7 +23,7 @@ class NoteRepository(private val notesDao: NoteDao, private val dataStore: DataS
         notesDao.insertNote(note)
     }
 
-    suspend fun deleteAll() {
+    fun deleteAll() {
         notesDao.deleteAll()
     }
 
@@ -32,6 +32,7 @@ class NoteRepository(private val notesDao: NoteDao, private val dataStore: DataS
             val result = notesApiService.getNotes(it.token)
 
             if (result.isSuccessful && result.body() != null) {
+                deleteAll()
                 notesDao.insertAll(result.body()!!)
                 emit(true)
             } else {

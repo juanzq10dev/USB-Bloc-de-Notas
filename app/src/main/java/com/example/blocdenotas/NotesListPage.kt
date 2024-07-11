@@ -39,9 +39,6 @@ class NotesListPage : Fragment(R.layout.fragment_notes_list_page) {
         viewModel = (activity as MainActivity).noteShareViewModel
         pref = (activity as MainActivity).dataStore
         viewModel.getAllContacts()
-        lifecycleScope.launch {
-            viewModel.repository.deleteAll() // <- Think about that.
-        }
 
         setupAddButton()
         setupRecyclerView()
@@ -85,6 +82,8 @@ class NotesListPage : Fragment(R.layout.fragment_notes_list_page) {
         val ownerContext = (activity as MainActivity)
         binding.recyclerView.layoutManager = LinearLayoutManager(ownerContext, LinearLayoutManager.VERTICAL, false)
         binding.recyclerView.adapter = adapter
+
+
         activity.let {
             viewModel.notes.observe(viewLifecycleOwner) { notes ->
                 adapter.notes = notes

@@ -67,10 +67,35 @@ class NotesDetail : Fragment() {
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        lifecycleScope.launch {
+            connectivityObserver.observe().collect {
+                if (it != ConnectivityObserver.InternetStatus.Available) {
+                    withContext(Dispatchers.Main) {
+                        binding.deleteButton.isEnabled = false
+                        binding.button.isEnabled = false
+                        binding.editTextText.isEnabled = false
+                        binding.editTextText2.isEnabled = false
+                    }
+                } else {
+                    withContext(Dispatchers.Main) {
+                        binding.deleteButton.isEnabled = true
+                        binding.button.isEnabled = true
+                        binding.editTextText.isEnabled = true
+                        binding.editTextText2.isEnabled = true
+
+                    }
+                }
+            }
+        }
+    }
+
     private fun setupDeleteButton() {
         if (viewModel.selectedNote == null) {
             binding.deleteButton.isVisible = false
         }
+
             binding.deleteButton.setOnClickListener {
                 detailViewModel.remove()
                 binding.root.findNavController().navigate(R.id.action_notesDetail_to_notesListPage)
