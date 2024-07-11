@@ -39,7 +39,6 @@ class MainActivity : AppCompatActivity() {
         val detailFactory = NotesDetailViewModelFactory(noteShareViewModel)
         noteDetailViewModel = ViewModelProvider(this, detailFactory).get(NotesDetailViewModel::class.java)
 
-
-        loginViewModel = LoginViewModel()
+        loginViewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
     }
 }

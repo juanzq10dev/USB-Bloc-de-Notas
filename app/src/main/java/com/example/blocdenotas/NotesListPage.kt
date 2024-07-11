@@ -5,16 +5,24 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.lifecycle.lifecycleScope
 import com.example.blocdenotas.room.models.Note
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.blocdenotas.databinding.FragmentNotesListPageBinding
 import com.example.blocdenotas.viewmodels.NoteShareViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class NotesListPage : Fragment(R.layout.fragment_notes_list_page) {
     lateinit var binding: FragmentNotesListPageBinding
     lateinit var viewModel: NoteShareViewModel
     lateinit var adapter: NotesRecyclerViewAdapter
+    lateinit var pref: DataStore<Preferences>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,8 +36,10 @@ class NotesListPage : Fragment(R.layout.fragment_notes_list_page) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = (activity as MainActivity).noteShareViewModel
+        pref = (activity as MainActivity).dataStore
         setupAddButton()
         setupRecyclerView()
+        setupLogOutButton()
     }
 
     private fun setupAddButton() {
@@ -39,8 +49,13 @@ class NotesListPage : Fragment(R.layout.fragment_notes_list_page) {
         }
     }
 
-    private fun setupLogginButton() {
-
+    private fun setupLogOutButton() {
+        binding.buttonLogOut.setOnClickListener {
+            viewModel.removeToken()
+            Thread.sleep(100)
+            val direction = NotesListPageDirections.actionNotesListPageToLogin()
+            binding.root.findNavController().navigate(direction)
+        }
     }
 
     private fun setupRecyclerView() {

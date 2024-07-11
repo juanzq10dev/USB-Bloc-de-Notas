@@ -10,7 +10,7 @@ import com.example.blocdenotas.room.models.AccessToken
 import com.example.blocdenotas.room.models.Note
 import kotlinx.coroutines.flow.map
 
-class NoteRepository(private val notesDao: NoteDao, val dataStore: DataStore<Preferences>) {
+class NoteRepository(private val notesDao: NoteDao, private val dataStore: DataStore<Preferences>) {
     val notes = notesDao.getAllNotes()
 
     suspend fun insert(note: Note) {
@@ -20,6 +20,7 @@ class NoteRepository(private val notesDao: NoteDao, val dataStore: DataStore<Pre
     suspend fun update(note: Note) {
         notesDao.updateNote(note)
     }
+
 
     fun getToken() = dataStore.data.map { preferences ->
         AccessToken(
@@ -32,5 +33,4 @@ class NoteRepository(private val notesDao: NoteDao, val dataStore: DataStore<Pre
             preference[stringPreferencesKey("accessToken")] = accessToken
         }
     }
-
 }
