@@ -78,6 +78,22 @@ class NotesDetail : Fragment() {
         tryGetLastLocation()
         setupSafeButton()
         setupDeleteButton()
+
+        lifecycleScope.launch {
+            connectivityObserver.observe().collect {
+                if (it != ConnectivityObserver.InternetStatus.Available) {
+                    withContext(Dispatchers.Main) {
+                        binding.editTextText.isEnabled = false
+                        binding.editTextText2.isEnabled = false
+                    }
+                } else {
+                    withContext(Dispatchers.Main) {
+                        binding.editTextText.isEnabled = true
+                        binding.editTextText2.isEnabled = true
+                    }
+                }
+            }
+        }
     }
 
     override fun onPause() {
@@ -104,22 +120,6 @@ class NotesDetail : Fragment() {
                     }
                 } else {
                     withContext(Dispatchers.Main) {
-                        binding.button.isEnabled = true
-                    }
-                }
-            }
-        }
-
-        lifecycleScope.launch {
-            connectivityObserver.observe().collect {
-                if (it != ConnectivityObserver.InternetStatus.Available) {
-                    withContext(Dispatchers.Main) {
-                        binding.editTextText.isEnabled = false
-                        binding.editTextText2.isEnabled = false
-                    }
-                } else {
-                    withContext(Dispatchers.Main) {
-                        binding.deleteButton.isEnabled = true
                         binding.button.isEnabled = true
                     }
                 }

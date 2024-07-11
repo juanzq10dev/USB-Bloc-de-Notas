@@ -26,7 +26,7 @@
             android:layout_marginTop="24dp"
             android:ems="10"
             android:hint="@string/title_of_the_note"
-            android:inputType="textMultiLine"
+            android:inputType="text"
             android:text="@={detailsViewModel.notesTitle}"
             app:layout_constraintBottom_toTopOf="@+id/textView"
             app:layout_constraintEnd_toEndOf="parent"
