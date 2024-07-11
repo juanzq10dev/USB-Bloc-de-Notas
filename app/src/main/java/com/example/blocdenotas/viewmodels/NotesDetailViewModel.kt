@@ -38,17 +38,22 @@ class NotesDetailViewModel(val notesShareViewModel: NoteShareViewModel): ViewMod
     fun save() {
         if (notesShareViewModel.selectedNote == null) {
             if (!(notesTitle.value).isNullOrBlank() && !(notesDescription.value).isNullOrBlank()) {
-                insert(Note(0, notesTitle.value!!, notesDescription.value!!))
+                /*
+                                insert(Note("", notesTitle.value!!, notesDescription.value!!))
                 notesTitle.value = ""
                 notesDescription.value = ""
+                 */
+
             }
         } else {
             if (!(notesTitle.value).isNullOrBlank() && !(notesDescription.value).isNullOrBlank()) {
-                notesShareViewModel.selectedNote?.title = notesTitle.value!!
+                /*
+                                notesShareViewModel.selectedNote?.title = notesTitle.value!!
                 notesShareViewModel.selectedNote?.description = notesDescription.value!!
                 update(notesShareViewModel.selectedNote!!)
                 notesTitle.value = ""
                 notesDescription.value = ""
+                 */
             }
         }
     }

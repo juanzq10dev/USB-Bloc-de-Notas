@@ -38,6 +38,7 @@ class NotesListPage : Fragment(R.layout.fragment_notes_list_page) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewModel = (activity as MainActivity).noteShareViewModel
         pref = (activity as MainActivity).dataStore
+        viewModel.getAllContacts()
 
         setupAddButton()
         setupRecyclerView()

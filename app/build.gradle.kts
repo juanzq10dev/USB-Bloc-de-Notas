@@ -70,4 +70,6 @@ dependencies {
     implementation("com.google.code.gson:gson:2.11.0")  // gson
     implementation("com.squareup.retrofit2:retrofit:2.11.0") // retrofit core
     implementation("com.squareup.retrofit2:converter-gson:2.11.0") // allows using retrofit with core
+    implementation("com.squareup.retrofit2:converter-scalars:2.11.0")
+
 }

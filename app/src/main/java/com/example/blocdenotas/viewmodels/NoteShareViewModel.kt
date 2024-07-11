@@ -17,6 +17,14 @@ class NoteShareViewModel(val repository: NoteRepository): ViewModel() {
 
     fun getAccessToken() = repository.getToken()
 
+    fun getAllContacts() = viewModelScope.launch {
+        repository.getAll().collect { result ->
+            if (!result) {
+                // Error message goes gere
+            }
+        }
+    }
+
     fun saveToken(token: String) = viewModelScope.launch {
         repository.saveToken(token)
     }
