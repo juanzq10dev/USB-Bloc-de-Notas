@@ -14,6 +14,7 @@ import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import com.example.blocdenotas.databinding.FragmentLoginBinding
+import com.example.blocdenotas.observer.ConnectivityObserver
 import com.example.blocdenotas.retrofit.entity.LoginPost
 import com.example.blocdenotas.room.models.AccessToken
 import com.example.blocdenotas.viewmodels.LoginViewModel
@@ -30,6 +31,7 @@ class Login : Fragment(R.layout.fragment_login) {
     lateinit var shareViewModel: NoteShareViewModel
     lateinit var loginViewModel: LoginViewModel
     lateinit var pref: DataStore<Preferences>
+    lateinit var connectivityObserver: ConnectivityObserver
     var isLogged = false
     // val pref = requireContext().applicationContext.dataStore
 
@@ -47,9 +49,10 @@ class Login : Fragment(R.layout.fragment_login) {
         super.onViewCreated(view, savedInstanceState)
         loginViewModel = (activity as MainActivity).loginViewModel
         shareViewModel = (activity as MainActivity).noteShareViewModel
+        connectivityObserver = (activity as MainActivity).connectivityObserver
         binding.loginViewModel = loginViewModel
         binding.lifecycleOwner = this
-
+        loginViewModel.isValid.value = false
         setupLoginButton()
     }
 
@@ -86,6 +89,21 @@ class Login : Fragment(R.layout.fragment_login) {
     }
 
     private fun setupLoginButton() {
+        lifecycleScope.launch {
+            connectivityObserver.observe().collect {
+                if (it != ConnectivityObserver.InternetStatus.Available ) {
+                    withContext(Dispatchers.Main) {
+                        binding.loginButton.isEnabled = false
+                    }
+                } else {
+                    withContext(Dispatchers.Main) {
+                        binding.loginButton.isEnabled = true
+
+                    }
+                }
+            }
+        }
+
         binding.loginButton.setOnClickListener {
             shareViewModel.login(
                 LoginPost(loginViewModel.userEmail.value!!, loginViewModel.userPassword.value!!))
@@ -97,6 +115,7 @@ class Login : Fragment(R.layout.fragment_login) {
                     }
                 }
             }
+
 
             if (isLogged) {
                 val direction = LoginDirections.actionLoginToNotesListPage()

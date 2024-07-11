@@ -65,16 +65,11 @@ class NotesDetail : Fragment() {
             detailViewModel.save()
             binding.root.findNavController().navigate(R.id.action_notesDetail_to_notesListPage)
         }
-    }
 
-    override fun onStart() {
-        super.onStart()
         lifecycleScope.launch {
             connectivityObserver.observe().collect {
                 if (it != ConnectivityObserver.InternetStatus.Available) {
                     withContext(Dispatchers.Main) {
-                        binding.deleteButton.isEnabled = false
-                        binding.button.isEnabled = false
                         binding.editTextText.isEnabled = false
                         binding.editTextText2.isEnabled = false
                     }
@@ -82,13 +77,14 @@ class NotesDetail : Fragment() {
                     withContext(Dispatchers.Main) {
                         binding.deleteButton.isEnabled = true
                         binding.button.isEnabled = true
-                        binding.editTextText.isEnabled = true
-                        binding.editTextText2.isEnabled = true
-
                     }
                 }
             }
         }
+    }
+
+    override fun onStart() {
+        super.onStart()
     }
 
     private fun setupDeleteButton() {

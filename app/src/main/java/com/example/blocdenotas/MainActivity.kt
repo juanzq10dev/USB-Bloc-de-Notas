@@ -16,6 +16,7 @@ import androidx.navigation.findNavController
 import com.example.blocdenotas.observer.ConnectivityObserver
 import com.example.blocdenotas.observer.NetworkConnectivityObserver
 import com.example.blocdenotas.viewmodels.LoginViewModel
+import com.example.blocdenotas.viewmodels.LoginViewModelFactory
 import com.example.blocdenotas.viewmodels.NoteShareViewModel
 import com.example.blocdenotas.viewmodels.NoteShareViewModelFactory
 import com.example.blocdenotas.viewmodels.NotesDetailViewModel
@@ -46,10 +47,11 @@ class MainActivity : AppCompatActivity() {
         val factory = NoteShareViewModelFactory(applicationContext, dataStore)
         noteShareViewModel = ViewModelProvider(this, factory).get(NoteShareViewModel::class.java)
 
-        val detailFactory = NotesDetailViewModelFactory(noteShareViewModel)
+        val detailFactory = NotesDetailViewModelFactory(noteShareViewModel, connectivityObserver)
         noteDetailViewModel = ViewModelProvider(this, detailFactory).get(NotesDetailViewModel::class.java)
 
-        loginViewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
+        val loginFactory = LoginViewModelFactory(connectivityObserver)
+        loginViewModel = ViewModelProvider(this, loginFactory).get(LoginViewModel::class.java)
 
         lifecycleScope.launch(Dispatchers.IO) {
             noteShareViewModel.getAccessToken().collect { accessToken ->

@@ -5,6 +5,7 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.blocdenotas.observer.ConnectivityObserver
 import com.example.blocdenotas.retrofit.entity.NoteDelete
 import com.example.blocdenotas.room.models.Note
 import kotlinx.coroutines.Dispatchers
@@ -12,18 +13,33 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.time.LocalDate
 
-class NotesDetailViewModel(val notesShareViewModel: NoteShareViewModel): ViewModel() {
+class NotesDetailViewModel(val notesShareViewModel: NoteShareViewModel, connectivityObserver: ConnectivityObserver): ViewModel() {
     val repository = notesShareViewModel.repository
     var notesTitle = MutableLiveData<String>()
     var notesDescription = MutableLiveData<String>()
+    var connecObserver = connectivityObserver
     var isValid = MediatorLiveData<Boolean>()
 
     init {
         isValid.addSource(notesTitle) {
-            isValid.value = checkIfValid()
+            checkFowInternet()
         }
         isValid.addSource(notesDescription) {
-            isValid.value = checkIfValid()
+            checkFowInternet()
+        }
+    }
+
+    private fun checkFowInternet() = viewModelScope.launch {
+        connecObserver.observe().collect {
+            if (it != ConnectivityObserver.InternetStatus.Available ) {
+                withContext(Dispatchers.Main) {
+                    isValid.value = false
+                }
+            } else {
+                withContext(Dispatchers.Main) {
+                    isValid.value = checkIfValid() && true
+                }
+            }
         }
     }
 

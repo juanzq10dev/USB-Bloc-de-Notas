@@ -15,15 +15,18 @@ import com.example.blocdenotas.room.models.Note
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.blocdenotas.databinding.FragmentNotesListPageBinding
+import com.example.blocdenotas.observer.ConnectivityObserver
 import com.example.blocdenotas.viewmodels.NoteShareViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class NotesListPage : Fragment(R.layout.fragment_notes_list_page) {
     lateinit var binding: FragmentNotesListPageBinding
     lateinit var viewModel: NoteShareViewModel
     lateinit var adapter: NotesRecyclerViewAdapter
     lateinit var pref: DataStore<Preferences>
+    lateinit var connectivityObserver: ConnectivityObserver
     var loggedIn = true
 
     override fun onCreateView(
@@ -38,7 +41,16 @@ class NotesListPage : Fragment(R.layout.fragment_notes_list_page) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         viewModel = (activity as MainActivity).noteShareViewModel
         pref = (activity as MainActivity).dataStore
-        viewModel.getAllContacts()
+        connectivityObserver = (activity as MainActivity).connectivityObserver
+        lifecycleScope.launch {
+            connectivityObserver.observe().collect {
+                if (it == ConnectivityObserver.InternetStatus.Available) {
+                    withContext(Dispatchers.Main) {
+                        viewModel.getAllContacts()
+                    }
+                }
+            }
+        }
 
         setupAddButton()
         setupRecyclerView()
@@ -84,12 +96,15 @@ class NotesListPage : Fragment(R.layout.fragment_notes_list_page) {
         binding.recyclerView.adapter = adapter
 
 
+
         activity.let {
             viewModel.notes.observe(viewLifecycleOwner) { notes ->
                 adapter.notes = notes
                 adapter.notifyDataSetChanged()
             }
+
         }
+
     }
 
 }
