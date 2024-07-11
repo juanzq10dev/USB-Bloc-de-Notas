@@ -39,16 +39,19 @@ class NotesListPage : Fragment(R.layout.fragment_notes_list_page) {
         viewModel = (activity as MainActivity).noteShareViewModel
         pref = (activity as MainActivity).dataStore
 
-        if (!loggedIn) {
-            val direction = NotesListPageDirections.actionNotesListPageToLogin()
-            binding.root.findNavController().navigate(direction)
-        }
-
         setupAddButton()
         setupRecyclerView()
         setupLogOutButton()
 
         super.onViewCreated(view, savedInstanceState)
+    }
+
+    override fun onStart() {
+        if (!loggedIn) {
+            val direction = NotesListPageDirections.actionNotesListPageToLogin()
+            binding.root.findNavController().navigate(direction)
+        }
+        super.onStart()
     }
 
     private fun setupAddButton() {
