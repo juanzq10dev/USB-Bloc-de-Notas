@@ -76,6 +76,13 @@ class Login : Fragment(R.layout.fragment_login) {
         super.onResume()
     }
 
+    override fun onPause() {
+        loginViewModel.userEmail.value = ""
+        loginViewModel.userPassword.value = ""
+
+        super.onPause()
+    }
+
     private fun setupLoginButton() {
         binding.loginButton.setOnClickListener {
             lifecycleScope.launch(Dispatchers.IO) {
