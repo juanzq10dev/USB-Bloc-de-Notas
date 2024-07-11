@@ -5,10 +5,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
 import com.example.blocdenotas.databinding.FragmentNotesDetailBinding
 import com.example.blocdenotas.viewmodels.NoteShareViewModel
 import com.example.blocdenotas.viewmodels.NotesDetailViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class NotesDetail : Fragment() {
     lateinit var binding: FragmentNotesDetailBinding

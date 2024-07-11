@@ -21,6 +21,7 @@ abstract class NotesAppDatabase: RoomDatabase() {
                     instance =
                         Room.databaseBuilder(context.applicationContext,
                             NotesAppDatabase::class.java, "notes_db")
+                            .allowMainThreadQueries()
                         .fallbackToDestructiveMigration()
                         .build()
                 }

@@ -10,6 +10,7 @@ data class Note (
     @PrimaryKey
     @SerializedName("id")
     val id: String,
+
     @ColumnInfo()
     @SerializedName("fecha")
     val date: String,
@@ -27,11 +28,11 @@ data class Note (
 
     @ColumnInfo
     @SerializedName("titulo")
-    val title: String,
+    var title: String,
 
     @ColumnInfo
     @SerializedName("body")
-    val description: String
+    var description: String
 
 /*
 data class Note(val date: String, val latitude: Int, val longitude: Int,

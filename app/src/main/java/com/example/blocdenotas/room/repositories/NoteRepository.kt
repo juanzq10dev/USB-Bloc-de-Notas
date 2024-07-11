@@ -22,16 +22,21 @@ class NoteRepository(private val notesDao: NoteDao, private val dataStore: DataS
         notesDao.insertNote(note)
     }
 
+    suspend fun deleteAll() {
+        notesDao.deleteAll()
+    }
+
     suspend fun getAll() = flow {
-        val result = notesApiService.getNotes()
+        getToken().collect {
+            val result = notesApiService.getNotes(it.token)
 
-        if (result.isSuccessful && result.body() != null) {
-            notesDao.insertAll(result.body()!!)
-            emit(true)
-        } else {
-            emit(false)
+            if (result.isSuccessful && result.body() != null) {
+                notesDao.insertAll(result.body()!!)
+                emit(true)
+            } else {
+                emit(false)
+            }
         }
-
     }
 
     suspend fun update(note: Note) {
@@ -43,6 +48,26 @@ class NoteRepository(private val notesDao: NoteDao, private val dataStore: DataS
         AccessToken(
             token = preferences[stringPreferencesKey("accessToken")].orEmpty()
         )
+    }
+
+    suspend fun insertToApi(note: Note) {
+        val call = notesApiService.insertToApi(note)
+        val res = call.awaitResponse()
+
+        if ( res.isSuccessful && res.body() != null ) {
+            getAll().collect { }
+        } else {
+            // Throw error
+        }
+    }
+
+    suspend fun updateToApi(note: Note) {
+        val call = notesApiService.updateToApi(note)
+        val res = call.awaitResponse()
+
+        if (res.isSuccessful && res.body() != null) {
+            getAll().collect { }
+        }
     }
 
     suspend fun saveToken( accessToken: String ) {
