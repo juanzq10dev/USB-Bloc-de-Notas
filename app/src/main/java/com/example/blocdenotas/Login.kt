@@ -99,13 +99,13 @@ class Login : Fragment(R.layout.fragment_login) {
                 } else {
                     withContext(Dispatchers.Main) {
                         binding.loginButton.isEnabled = true
-
                     }
                 }
             }
         }
 
         binding.loginButton.setOnClickListener {
+            binding.errorText.text = "Cargando"
             shareViewModel.login(
                 LoginPost(loginViewModel.userEmail.value!!, loginViewModel.userPassword.value!!))
 
@@ -113,15 +113,18 @@ class Login : Fragment(R.layout.fragment_login) {
                 shareViewModel.getAccessToken().collect {
                     withContext(Dispatchers.Main) {
                         isLogged = it.token.isNotEmpty()
+                        if (!isLogged) {
+                            binding.errorText.text = "Error de credenciales"
+                        }
                     }
                 }
             }
 
             if (isLogged) {
+                binding.errorText.text = "Conectado!"
                 val direction = LoginDirections.actionLoginToNotesListPage()
                 binding.root.findNavController().navigate(direction)
             }
-
         }
     }
 }
