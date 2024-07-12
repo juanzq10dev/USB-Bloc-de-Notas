@@ -17,27 +17,28 @@
         <EditText
             android:id="@+id/emailText"
             android:layout_width="wrap_content"
-            android:layout_height="56dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="337dp"
             android:ems="10"
-            android:inputType="textEmailAddress"
             android:hint="@string/insert_email"
+            android:inputType="textEmailAddress"
             android:text="@={loginViewModel.userEmail}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
         <EditText
             android:id="@+id/passwordText"
             android:layout_width="wrap_content"
             android:layout_height="60dp"
+            android:layout_margin="10dp"
             android:ems="10"
             android:hint="@string/insert_password"
-            android:text="@={loginViewModel.userPassword}"
             android:inputType="textPassword"
+            android:text="@={loginViewModel.userPassword}"
             app:layout_constraintBottom_toTopOf="@+id/loginButton"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_margin="10dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/emailText" />
 
@@ -45,12 +46,26 @@
             android:id="@+id/loginButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/log_in"
-            android:enabled="@{loginViewModel.isValid()}"
             android:layout_margin="10dp"
+            android:enabled="@{loginViewModel.isValid()}"
+            android:text="@string/log_in"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/passwordText" />
+
+        <TextView
+            android:id="@+id/errorText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="275dp"
+            android:layout_marginBottom="44dp"
+            android:text=""
+            android:textColor="@android:color/holo_red_dark"
+            app:layout_constraintBottom_toTopOf="@+id/emailText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

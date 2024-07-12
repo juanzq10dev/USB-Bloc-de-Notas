@@ -117,15 +117,9 @@ class Login : Fragment(R.layout.fragment_login) {
                 }
             }
 
-
             if (isLogged) {
                 val direction = LoginDirections.actionLoginToNotesListPage()
                 binding.root.findNavController().navigate(direction)
-            } else {
-                val text = "Usuario o contraseña incorrectos!"
-                val duration = Toast.LENGTH_SHORT
-                val toast = Toast.makeText(requireContext(), text, duration) // in Activity
-                toast.show()
             }
 
         }
